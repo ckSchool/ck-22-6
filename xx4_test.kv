@@ -1,0 +1,312 @@
+#:kivy 1.0.4
+
+
+<ScreenMain>:
+    id:wid_main
+    top_layout: wid_main_topbar
+    dd_btn: btn_ddID
+
+    BoxLayout:
+        id:wid_main_topbar
+        orientation:'vertical'
+        BoxLayout:
+            orientation:'horizontal'
+            size_hint_y:None
+            height:42
+            Button:
+                id: btn_ddID
+                text: 'Classes'
+                on_release: root.drop_down(btn_ddID)
+            Widget:
+            Label:
+                id:user_name
+                text:'user name'
+                font_size:12
+            Button:
+                size_hint_x:None
+                width:42
+                text:'...'
+                on_press:root.manager.current = 'ScreenLogin'
+
+        ScrollView:
+            padding:5
+            size_hint: (1, 1)
+            GridLayout:
+                id:student_list
+                cols:1
+                orientation:'vertical'
+                size_hint_y:None
+
+<ScreenStudentDetails>:
+    image: root.image_source
+
+    BoxLayout
+        orientation:'vertical'
+        BoxLayout:
+            orientation:'horizontal'
+            size_hint:(1, None)
+            height: 42
+            Button:
+                size_hint:(None, None)
+                size:(42,42)
+                text:'<'
+                on_release: root.manager.current = 'ScreenMain'
+            Label:
+                id:studentname_label
+                text:"The Student's Name"
+            Widget:
+            Button:
+                size_hint:(None, None)
+                size:(42,42)
+                text:'...'
+                on_release: root.manager.current = 'ScreenAction'
+        Button:
+            id:student_image_btn
+            size_hint: 1, 1
+            background_normal: 'student_images/00001.jpg'
+        GridLayout:
+            id:details_grid
+            padding:5
+            spacing:5
+            row_default_height:42
+            row_force_default:True
+            cols:2
+        Widget:
+            size_hint: 1, 1
+
+<ScreenNote>:
+    id:screen_note
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            size_hint:(1, None)
+            orientation:'horizontal'
+            height:42
+            Button:
+                size_hint:(None, 1)
+                width:42
+                text:'X'
+                on_release: root.manager.current = 'ScreenAction'
+            Label:
+                text:'Note'
+            Label:
+                size_hint:(None, None)
+                size:(42,42)
+                text:' '
+        TextInput:
+            size_hint:(1,1)
+        Button:
+            size_hint:(1, None)
+            height:50
+            text:'Next'
+            on_release: root.manager.current = 'ScreenTag'
+
+<ScreenTag>:
+    id:screen_tag
+    BoxLayout:
+        Label:
+            id:studentname_label
+            text:'ScreenTagStudents'
+        Widget:
+        Button:
+            size_hint:(1,None)
+            height:50
+            text:'Send'
+            on_release: root.manager.current = 'ScreenStudentDetails'
+<ScreenFileChooser>:
+    id:screen_file_chooser
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            size_hint:(1, None)
+            orientation:'horizontal'
+            height:42
+            Button:
+                size_hint:(None, 1)
+                width:42
+                text:'X'
+                on_release: root.manager.current = 'ScreenAction'
+            Label:
+                text:'Select Image'
+            Button:
+                size_hint:(None, None)
+                size:(42,42)
+                text:' '
+        Image:
+            size_hint:(None, None)
+            size:(42,42)
+        FileChooser:
+            id: filechooser
+            FileChooserIconLayout
+
+        Button:
+            size_hint:(1, None)
+            height:50
+            text:'Next'
+            on_release: root.manager.current = 'ScreenTag'
+
+<ScreenAction>:
+    id:screen_action
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            size_hint:(1, None)
+            orientation:'horizontal'
+            height:42
+            Button:
+                size_hint:(None, 1)
+                width:42
+                text:'X'
+                on_release: root.manager.current = 'ScreenStudentDetails'
+            Label:
+                text:'Action'
+            Button:
+                size_hint:(None, None)
+                size:(42,42)
+                text:'...'
+        GridLayout:
+            size_hint:(1,1)
+            padding:50
+            cols:1
+            row_default_height:100
+            row_force_default:True
+            Button:
+                text:'Take Picture'
+                on_press: root.take_picture()
+            Button:
+                text:'Find Picture'
+                on_release: root.manager.current = 'ScreenFileChooser'
+            Button:
+                text:'Write Note'
+                on_press: root.manager.current = 'ScreenNote'
+        Widget:
+            size_hint:(1,1)
+        Button:
+            size_hint:(1, None)
+            height:50
+            text:'Next'
+            on_release: root.manager.current = 'ScreenTag'
+
+<ScreenAttend>:
+    id:screen_attend
+    BoxLayout:
+        orientation:'vertical'
+        BoxLayout:
+            size_hint:(1, None)
+            orientation:'horizontal'
+            height:42
+            Button:
+                size_hint:(None, None)
+                size:(42,42)
+                text:'X'
+                on_release: root.manager.current = 'ScreenStudentDetails'
+            Label:
+                text: ''
+        Widget:
+            size_hint:(1,1)
+        GridLayout:
+            size_hint:(1,1)
+            cols:2
+            row_default_height:42
+            row_force_default:True
+            Label:
+                id:student_in_school
+                text: 'In attendance'
+            Switch:
+                active: True
+        Widget:
+            size_hint:(1,1)
+        Button:
+            size_hint:(1,None)
+            height:50
+            text:'Enter'
+            on_release: root.manager.current = 'ScreenStudentDetails'
+
+<StudentListItemButton>:
+    wid:   self.wid
+    image: self.image
+    title: self.title
+    label: self.label
+    #on_press: self.click()
+    BoxLayout:
+        orientation: "horizontal"
+        size: self.parent.size      # match the button's size
+        pos: self.parent.pos        # match the button's position
+        padding: 5
+        spacing: 10
+
+        Image:
+            size_hint: None, 1
+            source: root.image
+            size: 64, 64
+            valign: "middle"
+
+
+        Label:
+            size_hint: None, 1
+            text: root.label
+            valign: "middle"
+            size: 400, 64
+            text_size: self.size
+
+<ScreenLogin>:
+    BoxLayout:
+        orientation: "vertical"
+        BoxLayout:
+            id:login_layout
+            orientation: "horizontal"
+            size_hint:(1, None)
+            height:42
+
+            Button:
+                id:login_cancel
+                text:'X'
+                size_hint:(None,None)
+                size:(42,42)
+                on_release: root.manager.current = 'ScreenMain'
+            Label:
+                size_hint:(1,None)
+                height:42
+                text:' '
+        #Widget:
+        #    size_hint:(None, 1)
+        GridLayout:
+            size_hint:(1,1)
+            cols:2
+            Label:
+                size_hint:(1,1)
+                text:'Email name'
+            TextInput:
+                id:email_input
+                valign:'middle'
+                text:'q'
+            Label:
+                text:'Password'
+                size: self.texture_size
+                background_color: 1, 1, 1, 1
+                color: 0,0,1,1
+                canvas.before:
+
+                    Color:
+                        rgba: 0, 0, 0, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            TextInput:
+                id:password_input
+                text:'w'
+				password: True
+            Label:
+                text:' '
+            Button:
+                text:'Enter'
+                on_press: root.login()
+
+<CustomPopup>:
+    size_hint: 1, .5
+    auto_dismiss: False
+    title: 'Warning!'
+    Button:
+        halign:'center'
+        text: 'Wrong Password, Please Correct the password!\n\nClick to dismiss'
+        on_press: root.dismiss()
