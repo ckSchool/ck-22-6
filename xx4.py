@@ -55,28 +55,6 @@ except:
         print ' no connection'
 
 
-student_list = [
-    ("0", "fruit_images/Apple.64.jpg","Apple","Apple: Super Sweet"),
-    ("1", "fruit_images/Banana.64.jpg","Banana","Banana: Want a bunch"),
-    ("2", "fruit_images/Strawberry.64.jpg", "Strawberry", "Strawberry: Yummy"),
-    ("3", "fruit_images/Orange.64.jpg","Orange","Orange: Florida's BesT"),
-    ("4", "fruit_images/Pear.64.jpg","Pear","Pear: Perfect"),
-    ("5", "fruit_images/Lime.64.jpg","Lime","Sharp: NZ BesT"),
-    ("6", "fruit_images/Apple.64.jpg","Apple","Apple: Super Sweet"),
-    ("7", "fruit_images/Banana.64.jpg","Banana","Banana: Want a bunch"),
-    ("8", "fruit_images/Strawberry.64.jpg", "Strawberry", "Strawberry: Yummy"),
-    ("9", "fruit_images/Orange.64.jpg","Orange","Orange: Florida's BesT"),
-    ("10", "fruit_images/Pear.64.jpg","Pear","Pear: Perfect"),
-    ("11", "fruit_images/Lime.64.jpg","Lime","Sharp: NZ BesT"),
-    ("12", "fruit_images/Apple.64.jpg","Apple","Apple: Super Sweet"),
-    ("13", "fruit_images/Banana.64.jpg","Banana","Banana: Want a bunch"),
-    ("14", "fruit_images/Strawberry.64.jpg", "Strawberry", "Strawberry: Yummy"),
-    ("15", "fruit_images/Orange.64.jpg","Orange","Orange: Florida's BesT"),
-    ("16", "fruit_images/Pear.64.jpg","Pear","Pear: Perfect"),
-    ("17", "fruit_images/Lime.64.jpg","Lime","Sharp: NZ BesT")
-    ]
-
-
 user_id    = 0
 student_id = 0
 students_name = ''
@@ -317,6 +295,7 @@ class ScreenMain(Screen):
         student_list_widget.bind(minimum_height=student_list_widget.setter('height'))
     
     def build_student_button(self, item):
+        image_id = str(item[0]).zfill(5)
         image_file = "student_images/0000%d.jpg" % item[0]
         btn = StudentListItemButton(
                 wid = str(item[0]), 
