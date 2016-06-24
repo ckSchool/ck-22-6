@@ -54,9 +54,6 @@ except:
     except:
         print ' no connection'
 
-
-
-
 user_id    = 0
 student_id = 0
 students_name = ''
@@ -315,6 +312,7 @@ class ScreenMain(Screen):
         student_list_widget.bind(minimum_height=student_list_widget.setter('height'))
     
     def build_student_button(self, item):
+        image_id = str(item[0]).zfill(5)
         image_file = "student_images/0000%d.jpg" % item[0]
         btn = StudentListItemButton(
                 wid = str(item[0]), 
