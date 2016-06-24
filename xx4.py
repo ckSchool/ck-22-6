@@ -37,12 +37,12 @@ from models import User, Forms
 
 try:
     print 'try vostro 17"' 
-    engine = create_engine('mysql://root:password@localhost/ckdb', echo=True)
+    engine = create_engine('mysql://root:passwordroot@192.168.0.24/ckdb', echo=True)
     DBSession = sessionmaker()
     DBSession.configure(bind=engine)
     session = DBSession()
     session.query(User)
-    self.fred()
+    #self.fred()
 except:
     try:
         print ' try my 15"'
@@ -55,26 +55,6 @@ except:
         print ' no connection'
 
 
-student_list = [
-    ("0", "fruit_images/Apple.64.jpg","Apple","Apple: Super Sweet"),
-    ("1", "fruit_images/Banana.64.jpg","Banana","Banana: Want a bunch"),
-    ("2", "fruit_images/Strawberry.64.jpg", "Strawberry", "Strawberry: Yummy"),
-    ("3", "fruit_images/Orange.64.jpg","Orange","Orange: Florida's BesT"),
-    ("4", "fruit_images/Pear.64.jpg","Pear","Pear: Perfect"),
-    ("5", "fruit_images/Lime.64.jpg","Lime","Sharp: NZ BesT"),
-    ("6", "fruit_images/Apple.64.jpg","Apple","Apple: Super Sweet"),
-    ("7", "fruit_images/Banana.64.jpg","Banana","Banana: Want a bunch"),
-    ("8", "fruit_images/Strawberry.64.jpg", "Strawberry", "Strawberry: Yummy"),
-    ("9", "fruit_images/Orange.64.jpg","Orange","Orange: Florida's BesT"),
-    ("10", "fruit_images/Pear.64.jpg","Pear","Pear: Perfect"),
-    ("11", "fruit_images/Lime.64.jpg","Lime","Sharp: NZ BesT"),
-    ("12", "fruit_images/Apple.64.jpg","Apple","Apple: Super Sweet"),
-    ("13", "fruit_images/Banana.64.jpg","Banana","Banana: Want a bunch"),
-    ("14", "fruit_images/Strawberry.64.jpg", "Strawberry", "Strawberry: Yummy"),
-    ("15", "fruit_images/Orange.64.jpg","Orange","Orange: Florida's BesT"),
-    ("16", "fruit_images/Pear.64.jpg","Pear","Pear: Perfect"),
-    ("17", "fruit_images/Lime.64.jpg","Lime","Sharp: NZ BesT")
-    ]
 
 
 user_id    = 0
@@ -102,10 +82,25 @@ class ScreenLogin(Screen):
         user_password  = password_input.text
 
         res = session.query(User).filter(and_(User.email == user_email, User.password == user_password)).count()
-        if res > 0:
-            user_id = 1
+
+
+        sql = "SELECT id, name \
+                FROM users \
+                WHERE email='%s' \
+                AND password='%s'" % (user_email, user_password)
+        
+        alchemysql = alchemy_text(sql)
+        
+        res = engine.execute(alchemysql)
+        
+        res = [r for r in res]
+        
+        
+        if len(res)==1:
+            res = res [0]
+            user_id, name = res
             ScreenMain=app.my_screenmanager.get_screen('ScreenMain')
-            ScreenMain.new_user()
+            ScreenMain.new_user(user_id, name)
             app.my_screenmanager.current = 'ScreenMain'
         else:
             self.popupwrong_password()
@@ -206,12 +201,12 @@ class ScreenMain(Screen):
     top_layout     = ObjectProperty(None)
     main_btn       = ObjectProperty(None)
     dd_btn         = ObjectProperty(None)
-
+    
     def __init__ (self,**kwargs):
         super (ScreenMain, self).__init__(**kwargs)
         Clock.schedule_once(self.prepare, 0)
         self.dropdown = DropDown()
-  
+        self.user_name ='5 '
     def prepare(self, *args):
         global user_id
         # if first time or loged out
@@ -219,16 +214,16 @@ class ScreenMain(Screen):
         # call the login screen
         self.manager.current = 'ScreenLogin'
 
-    def new_user(self):
+    def new_user(self, sid, name):
+        print sid, name
         global user_name
-        user_name = ""        
-        if user_id > 0:
-            user_name = "Andrew Watts" # fetch name for user_id
-            first_id = self.add_classes()
+        self.user_name = name
+            
+        user_name_label=self.ids.user_name_label
+        user_name_label.text=self.user_name
+        first_id = self.add_classes()
             # need to get first list
-            self.class_selected(first_id)
-        else:
-            self.manager.current = 'ScreenLogin'
+        self.class_selected(first_id)
 
     def add_classes(self):
         # sql  get classes for user
@@ -245,7 +240,10 @@ class ScreenMain(Screen):
 
         classes = [r for r in result]
         self.create_dropdown(classes)
-        
+
+        if not classes: return
+
+        print classes
         first_id   = classes[0][0]
         first_name = classes[0][1]
  

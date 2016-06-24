@@ -16,8 +16,8 @@ class User(Base):
 
     try:
         print 'try 17"'
-        engine = create_engine('mysql://root:password@localhost/ckdb', encoding='latin8', echo=True)
-        fred()
+        engine = create_engine('mysql://root:passwordroot@192.168.0.24/ckdb', encoding='latin8', echo=True)
+        #fred()
     except:
         try:
             print 'try 15"'
@@ -36,7 +36,7 @@ class Forms(Base):
     try:
         print 'try 17"'
         engine = create_engine('mysql://root:password@localhost/ckdb', encoding='latin8', echo=True)
-        fred()
+        #fred()
     except:
         try:
             print 'try 15"'

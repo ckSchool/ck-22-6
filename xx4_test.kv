@@ -5,7 +5,6 @@
     id:wid_main
     top_layout: wid_main_topbar
     dd_btn: btn_ddID
-
     BoxLayout:
         id:wid_main_topbar
         orientation:'vertical'
@@ -19,8 +18,8 @@
                 on_release: root.drop_down(btn_ddID)
             Widget:
             Label:
-                id:user_name
-                text:'user name'
+                id:user_name_label
+                text:''
                 font_size:12
             Button:
                 size_hint_x:None
