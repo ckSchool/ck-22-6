@@ -88,6 +88,34 @@
                 text:'Enter'
                 on_press: root.login()
 
+
+<LoginPopup>:
+    size_hint: 1, .5
+    auto_dismiss: False
+    title: 'Welcome'
+
+    GridLayout:
+
+        size_hint:(1,1)
+        cols:2
+        LabelC:
+            bcolor: 1,0,0,1
+            text:'Email name'
+        TextInput:
+            id:email_input_p
+            valign:'middle'
+            text:'q'
+        Label:
+            text:'Password'
+        TextInput:
+            id:password_input_p
+            text:'w'
+        Label:
+        Button:
+            text:'Enter'
+            on_press: root.login()
+
+
 <CustomPopup>:
     size_hint: 1, .5
     auto_dismiss: False

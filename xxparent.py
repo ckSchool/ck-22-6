@@ -26,6 +26,8 @@ from kivy.lang       import Builder
 
 from functools import partial
 
+import LabelC
+
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -71,7 +73,7 @@ class ScreenLogin(Screen):
         p = CustomPopup()
         p.open()
 
-    def login(self, *args):
+    def login2(self, *args):
         global user_id
         email_input = self.ids.email_input
         user_email  = email_input.text
@@ -87,6 +89,38 @@ class ScreenLogin(Screen):
             app.my_screenmanager.current = 'ScreenMain'
         else:
             self.popupwrong_password()
+
+class LoginPopup(Popup):
+    def popupwrong_password(self):
+        p = CustomPopup()
+        p.open()
+        
+    def login(self, *args):
+        global user_id
+        
+
+        res = 0
+        # get data from kivy
+        email_input = self.ids.email_input_p
+        password_input =  self.ids.password_input_p
+        
+        user_email  = email_input.text
+
+        
+        user_password  = password_input.text
+
+        res = session.query(User).filter(and_(User.email == user_email, User.password == user_password)).count()
+        if res > 0:
+            user_id = 1
+            ScreenMain=app.my_screenmanager.get_screen('ScreenMain')
+            ScreenMain.new_user()
+            app.my_screenmanager.current = 'ScreenMain'
+
+            self.dismiss()
+            
+        else:
+            self.popupwrong_password()
+    
             
 class CustomPopup(Popup):
     pass
@@ -117,7 +151,10 @@ class ScreenMain(Screen):
         # if first time or loged out
         user_id = 0
         # call the login screen
-        self.manager.current = 'ScreenLogin'
+        p = LoginPopup()
+        #p = CustomPopup()
+        p.open()
+        #self.manager.current = 'ScreenLogin'
 
     def new_user(self):
         global user_name
