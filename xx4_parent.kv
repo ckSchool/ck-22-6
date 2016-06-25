@@ -35,80 +35,31 @@
             size_hint: 1, 1
 
 
-<ScreenLogin>:
-    BoxLayout:
-        orientation: "vertical"
-        BoxLayout:
-            id:login_layout
-            orientation: "horizontal"
-            size_hint:(1, None)
-            height:42
-
-            Button:
-                id:login_cancel
-                text:'X'
-                size_hint:(None,None)
-                size:(42,42)
-                on_release: root.manager.current = 'ScreenMain'
-            Label:
-                size_hint:(1,None)
-                height:42
-                text:' '
-        #Widget:
-        #    size_hint:(None, 1)
-        GridLayout:
-            size_hint:(1,1)
-            cols:2
-            Label:
-                size_hint:(1,1)
-                text:'Email name'
-            TextInput:
-                id:email_input
-                valign:'middle'
-                text:'q'
-            Label:
-                text:'Password'
-                size: self.texture_size
-                background_color: 1, 1, 1, 1
-                color: 0,0,1,1
-                canvas.before:
-
-                    Color:
-                        rgba: 0, 0, 0, 1
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-            TextInput:
-                id:password_input
-                text:'w'
-				password: True
-            Label:
-                text:' '
-            Button:
-                text:'Enter'
-                on_press: root.login()
-
-
 <LoginPopup>:
     size_hint: 1, .5
     auto_dismiss: False
     title: 'Welcome'
 
     GridLayout:
-
         size_hint:(1,1)
         cols:2
+        spacing:1
         LabelC:
-            bcolor: 1,0,0,1
+            bcolor: .7, .3, .1, 1
             text:'Email name'
+            valign:'middle'
         TextInput:
             id:email_input_p
-            valign:'middle'
+            padding:5,(self.height-self.line_height)/2,0,0
+
             text:'q'
-        Label:
+        LabelC:
+            valign:'middle'
+            bcolor: .7, .3, .1, 1
             text:'Password'
         TextInput:
             id:password_input_p
+            padding:5,(self.height-self.line_height)/2,0,0
             text:'w'
         Label:
         Button:

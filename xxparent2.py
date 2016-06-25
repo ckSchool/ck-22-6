@@ -94,10 +94,6 @@ class LoginPopup(Popup):
             # for testing
             user_id = 1
             
-            ScreenMain=app.my_screenmanager.get_screen('ScreenMain')
-            ScreenMain.new_user()
-            app.my_screenmanager.current = 'ScreenMain'
-
             self.dismiss()
             
         else:
@@ -113,14 +109,17 @@ class DropdownButton(Button):
     title = StringProperty('')
     label = StringProperty('')
 
-class ScreenMain(Screen):
+class xx4_parentApp(App):
+    pass
+    '''
+
     top_layout   = ObjectProperty(None)
     dd_btn       = ObjectProperty(None)
     image_source = StringProperty('')
     #btn_ddID = ObjectProperty(None)
 
     def __init__(self,**kwargs):
-        super (ScreenMain,self).__init__(**kwargs)
+        super (xx4_parentApp,self).__init__(**kwargs)
         Clock.schedule_once(self.prepare, 0)
         self.dropdown = DropDown()
 
@@ -134,9 +133,7 @@ class ScreenMain(Screen):
         user_id = 0
         # call the login screen
         p = LoginPopup()
-        #p = CustomPopup()
         p.open()
-        #self.manager.current = 'ScreenLogin'
 
     def new_user(self):
         global user_name
@@ -149,7 +146,8 @@ class ScreenMain(Screen):
             # need to get first list
             self.child_selected(first_id)
         else:
-            self.manager.current = 'ScreenLogin'
+            p = LoginPopup()
+            p.open()
 
     def add_children(self):
         global user_id, children_dict
@@ -188,14 +186,6 @@ class ScreenMain(Screen):
     def changer(self,*args):
         print 'changer'
         pass
-
-    
-    def drop_down(self, x=''):
-        # open the dropdown buttons
-        self.dropdown.open(x)
-        # set mainbutton text to select item
-        self.dropdown.bind(on_select=lambda instance, y: setattr(x, 'text', y))
-
 
 
     def create_dropdown(self, children):
@@ -240,14 +230,14 @@ class ScreenMain(Screen):
 
 
 
-class xx4_parentApp(App):
-    def build(self):
-        self.my_screenmanager = ScreenManager()
-        screenMain   = ScreenMain(  name='ScreenMain')
-   
-        self.my_screenmanager.add_widget(screenMain)
-        return self.my_screenmanager
+
+    pass
+
+    '''
+
+
+
 
 if __name__ == '__main__':
-    app=xx4_parentApp()
+    app=ScreenMainApp()
     app.run()
